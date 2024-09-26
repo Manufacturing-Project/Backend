@@ -4,7 +4,7 @@ import { RawMaterialsService } from './raw-materials.service';
 import { RawMaterial } from './schemas/raw-material.schema';
 import { CreateRawMaterialDto } from './dto/create-raw-material.dto/create-raw-material.dto';
 
-@Controller('raw-materials')
+@Controller('materials')
 export class RawMaterialsController {
   constructor(private readonly rawMaterialsService: RawMaterialsService) {}
 
