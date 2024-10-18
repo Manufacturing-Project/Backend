@@ -9,6 +9,8 @@ import { DatabaseConfig } from './config/Database.config';
 import { VariantsModule } from './modules/variants/variants.module';
 import { UnitModule } from './modules/unit/unit.module';
 
+import { CategoryModule } from './modules/category/Category.module'
+
 dotenv.config();
 
 @Module({
@@ -16,8 +18,9 @@ dotenv.config();
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-  RawMaterialsModule, 
+    RawMaterialsModule,
     DatabaseConfig,
+    CategoryModule,
     VariantsModule,
     UnitModule
   ],

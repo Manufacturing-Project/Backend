@@ -12,16 +12,16 @@ export class CreateRawMaterialDto {
     @IsString()
     readonly category: string;
     
-    @IsNumber()
+    @IsString()
     readonly unitOfMeasure: string;
 
-    @IsNumber() 
+    @IsNumber()  
     readonly reorderLevel: number;
     
     @IsString()
     readonly description?: string;
     
-    @IsBoolean()
+    @IsBoolean() 
     readonly hasVariants: boolean;
 
 }

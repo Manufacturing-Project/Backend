@@ -2,15 +2,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+
   app.enableCors({
-    origin: 'http://localhost:3000', 
+    origin: '*',  // Allow all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
+    credentials: true,  // Allows cookies to be sent with requests
   });
-  await app.listen(8080);
+
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
 }
 bootstrap();
+ 

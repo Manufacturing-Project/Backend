@@ -13,6 +13,19 @@ export class VariantsController {
     return this.variantsService.create(createVariantDto);
   }
 
+  @Post('check-shortName')
+  async isShortNameAvailable(@Body('shortName') shortName: string) {
+    const isAvailable = await this.variantsService.isShortNameAvailable(shortName);
+    return { available: isAvailable };
+  }
+
+  @Post('generate-shortName')
+  async generateUniqueShortName(@Body('value') value: string) {
+    return this.variantsService.generateUniqueShortName(value);
+  }
+  
+  
+
   @Get()
   async findAll() {
     return this.variantsService.findAll();

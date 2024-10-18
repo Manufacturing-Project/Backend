@@ -10,9 +10,9 @@ export class RawMaterialsController {
 
   @Post()
   async create(@Body() rawMaterialDto: CreateRawMaterialDto): Promise<RawMaterial> {
-    return await this.rawMaterialsService.create(rawMaterialDto);
+    return await this.rawMaterialsService.create(rawMaterialDto); 
   } 
-
+ 
   @Get() 
   async findAll(): Promise<RawMaterial[]> { 
     const result = await this.rawMaterialsService.findAll();
@@ -20,4 +20,14 @@ export class RawMaterialsController {
 
   }
 
-}
+  @Post('generate-material-code')
+  async generateUniqueMaterialCode(@Body('materialName') materialName: string) {
+    return this.rawMaterialsService.generateUniqueMaterialCode(materialName);
+  }
+
+  @Post('check-material-code')
+  async isMaterialCodeTaken(@Body('materialCode') materialCode: string) {
+    const isTaken = await this.rawMaterialsService.isMaterialCodeTaken(materialCode);
+    return { available: !isTaken };
+  }
+} 
