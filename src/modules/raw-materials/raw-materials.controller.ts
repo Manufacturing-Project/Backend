@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RawMaterialsService } from './raw-materials.service';
 import { RawMaterial } from './schemas/raw-material.schema';
 import { CreateRawMaterialDto } from './dto/create-raw-material.dto/create-raw-material.dto';
+import { AddVariantDto } from './dto/create-raw-material.dto/variants-of-material.dto';
 
 @Controller('materials')
 export class RawMaterialsController {
@@ -30,4 +31,17 @@ export class RawMaterialsController {
     const isTaken = await this.rawMaterialsService.isMaterialCodeTaken(materialCode);
     return { available: !isTaken };
   }
+
+  @Post(':id/variants')
+  async addVariant(
+    @Param('id') materialId: string,
+    @Body() addVariantDto: AddVariantDto,
+  ) {
+    return await this.rawMaterialsService.addVariant(materialId, addVariantDto);
+  }
+
+  @Get(':id/variants')
+  async getVariants(@Param('id') materialId: string) {
+    return await this.rawMaterialsService.getVariants(materialId);
+  } 
 } 
