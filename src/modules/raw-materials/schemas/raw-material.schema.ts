@@ -3,6 +3,15 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
+export class Variant {
+  @Prop({ required: true })
+  variant: string;
+
+  @Prop({ type: [String], required: true })
+  values: string[];
+}
+
+@Schema()
 export class RawMaterial extends Document {
  
   @Prop({ required: true })
@@ -26,6 +35,8 @@ export class RawMaterial extends Document {
   @Prop({ required: true, default: false })
   hasVariants: boolean;
 
+  @Prop({ type: [Variant], default: [] })
+  variants: Variant[];
   
 }
 

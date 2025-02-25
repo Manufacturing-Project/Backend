@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { RawMaterial } from './schemas/raw-material.schema';
 import { Model } from 'mongoose';
 import { CreateRawMaterialDto } from './dto/create-raw-material.dto/create-raw-material.dto';
+import { AddVariantDto } from './dto/create-raw-material.dto/variants-of-material.dto';
 
 
 @Injectable()
@@ -58,6 +59,32 @@ export class RawMaterialsService {
       async isMaterialCodeTaken(materialCode: string): Promise<boolean> {
         const existingMaterial = await this.rawMaterialModel.findOne({ materialCode });
         return !!existingMaterial; 
+      }
+
+      async addVariant(materialId: string, addVariantDto: AddVariantDto): Promise<RawMaterial> {
+        const { variant, values } = addVariantDto;
+    
+        const material = await this.rawMaterialModel.findById(materialId);
+        if (!material) {
+          throw new Error(`Material with ID ${materialId} not found.`);
+        }
+    
+        const existingVariant = material.variants.find((v) => v.variant === variant);
+        if (existingVariant) {
+          existingVariant.values = Array.from(new Set([...existingVariant.values, ...values]));
+        } else {
+          material.variants.push({ variant, values });
+        }
+    
+        return await material.save();
+      }
+
+      async getVariants(materialId: string): Promise<{ variant: string; values: string[] }[]> {
+        const material = await this.rawMaterialModel.findById(materialId, 'variants');
+        if (!material) {
+          throw new Error(`Material with ID ${materialId} not found.`);
+        }
+        return material.variants;
       }
 
 }
