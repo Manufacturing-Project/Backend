@@ -8,8 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseConfig } from './config/Database.config';
 import { VariantsModule } from './modules/variants/variants.module';
 import { UnitModule } from './modules/unit/unit.module';
-
+import {AuthModule} from './modules/authentication/Auth.module'
 import { CategoryModule } from './modules/category/Category.module'
+
 
 dotenv.config();
 
@@ -19,10 +20,12 @@ dotenv.config();
       isGlobal: true,
     }),
     RawMaterialsModule,
+    AuthModule,
     DatabaseConfig,
     CategoryModule,
     VariantsModule,
-    UnitModule
+    UnitModule,
+  
   ],
   controllers: [AppController,],
   providers: [AppService],

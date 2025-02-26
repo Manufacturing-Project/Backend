@@ -29,6 +29,8 @@ export class CategoryService {
       }
     }
 
+  
+
     async findAll(): Promise<Category[]> {
       return await this.categoryModel.find().exec();
     }
