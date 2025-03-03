@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { UserService } from './User.service';
+import { UserController } from './User.controller';
 import {  UserSchema } from '../authentication/schemas/User.schemas';
 import { forwardRef } from '@nestjs/common';
 import { AuthModule } from '../authentication/Auth.module';

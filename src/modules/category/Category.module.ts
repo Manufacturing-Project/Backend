@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { CategoryService } from './Category.service';
-import { CategoryController } from './category.controller';
+import { CategoryController } from './Category.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategorySchema } from './schemas/Category.schema';
 
