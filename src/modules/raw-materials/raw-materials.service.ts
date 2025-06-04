@@ -21,9 +21,9 @@ export class RawMaterialsService {
     async findAll(): Promise<RawMaterial[]> { 
      
       const result = await this.rawMaterialModel.find().exec();
-
       return result;
       } 
+
 
       async generateUniqueMaterialCode(materialName: string){
         const words = materialName.split(' ').filter(word => word.length > 0);
@@ -79,6 +79,7 @@ export class RawMaterialsService {
         return await material.save();
       }
 
+
       async getVariants(materialId: string): Promise<{ variant: string; values: string[] }[]> {
         const material = await this.rawMaterialModel.findById(materialId, 'variants');
         if (!material) {
@@ -87,4 +88,23 @@ export class RawMaterialsService {
         return material.variants;
       }
 
+      async deleteMaterial(materialId: string): Promise<{ message: string }> {
+        const result = await this.rawMaterialModel.findByIdAndDelete(materialId);
+        if (!result) {
+          throw new Error(`Material with ID ${materialId} not found.`);
+          
+        }
+        return { message: 'Material deleted successfully' };
+      }
+
+      async updateMaterial(materialId: string, updateData: Partial<CreateRawMaterialDto>): Promise<RawMaterial> {
+        const updatedMaterial = await this.rawMaterialModel.findByIdAndUpdate(materialId, updateData, { new: true });
+        if (!updatedMaterial) {
+          throw new Error(`Material with ID ${materialId} not found.`);
+        }
+        return updatedMaterial;
+      }
+
 }
+
+
