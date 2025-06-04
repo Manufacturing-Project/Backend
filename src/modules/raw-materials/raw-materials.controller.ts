@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { RawMaterialsService } from './raw-materials.service';
+import { Body, Controller, Delete, Get, Param, Post, Put,  } from '@nestjs/common';
+import { RawMaterialsService  } from './raw-materials.service';
 import { RawMaterial } from './schemas/raw-material.schema';
 import { CreateRawMaterialDto } from './dto/create-raw-material.dto/create-raw-material.dto';
 import { AddVariantDto } from './dto/create-raw-material.dto/variants-of-material.dto';
-
 @Controller('materials')
 export class RawMaterialsController {
   constructor(private readonly rawMaterialsService: RawMaterialsService) {}
@@ -19,6 +18,18 @@ export class RawMaterialsController {
     const result = await this.rawMaterialsService.findAll();
     return result;
 
+  }
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<{ message: string }> {
+    this.rawMaterialsService.deleteMaterial(id);
+    return { message: 'Raw material deleted successfully' };
+  }
+
+  @Put(':id')
+  async update( @Param('id') id: string,
+    @Body() rawMaterialDto: CreateRawMaterialDto,
+  ): Promise<RawMaterial> {
+    return await this.rawMaterialsService.updateMaterial(id, rawMaterialDto);
   }
 
   @Post('generate-material-code')
