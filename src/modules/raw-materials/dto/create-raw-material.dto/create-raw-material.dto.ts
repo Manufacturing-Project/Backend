@@ -4,24 +4,24 @@ import {  IsString, IsNumber, IsBoolean } from 'class-validator';
 export class CreateRawMaterialDto {
 
     @IsString()
-    readonly materialName: string;
+     materialName: string;
 
     @IsString()
-    readonly materialCode: string;
+     materialCode: string;
 
     @IsString()
-    readonly category: string;
+     category: string;
     
     @IsString()
-    readonly unitOfMeasure: string;
+     unitOfMeasure: string;
 
-    @IsNumber()  
-    readonly reorderLevel: number;
-    
+   @IsNumber()
+    reorderLevel: number;
+
     @IsString()
-    readonly description?: string;
+     description: string;
     
     @IsBoolean() 
-    readonly hasVariants: boolean;
+     hasVariants: boolean;
 
 }

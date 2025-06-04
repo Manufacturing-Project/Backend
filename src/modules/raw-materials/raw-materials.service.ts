@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { RawMaterial } from './schemas/raw-material.schema';
 import { Model } from 'mongoose';
@@ -97,13 +97,29 @@ export class RawMaterialsService {
         return { message: 'Material deleted successfully' };
       }
 
-      async updateMaterial(materialId: string, updateData: Partial<CreateRawMaterialDto>): Promise<RawMaterial> {
-        const updatedMaterial = await this.rawMaterialModel.findByIdAndUpdate(materialId, updateData, { new: true });
-        if (!updatedMaterial) {
-          throw new Error(`Material with ID ${materialId} not found.`);
-        }
-        return updatedMaterial;
-      }
+      async updateMaterial(
+  materialId: string,
+  updateData: Partial<CreateRawMaterialDto>
+): Promise<RawMaterial> {
+  try {
+    const updatedMaterial = await this.rawMaterialModel.findByIdAndUpdate(
+      materialId,
+      { $set: updateData },
+      { new: true, runValidators: true } // Return updated doc & validate it
+    ).exec();
+
+    if (!updatedMaterial) {
+      throw new NotFoundException(`Material with ID '${materialId}' not found.`);
+    }
+
+    return updatedMaterial;
+  } catch (error) {
+    throw new InternalServerErrorException(
+      `Failed to update material: ${error.message}`
+    );
+  }
+}
+
 
 }
 
